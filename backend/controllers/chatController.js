@@ -103,14 +103,14 @@ const sendMessage = async (req, res) => {
   } catch (error) {
     console.error("Chat Error:", error);
 
-    // Provide specific error messages for common OpenAI errors
+    // Provide specific error messages for common provider errors
     let userMessage = "AI response generation failed. Please try again.";
     if (error.code === "invalid_api_key" || error.status === 401) {
-      userMessage = "Invalid OpenAI API key. Please check your OPENAI_API_KEY in backend/.env";
+      userMessage = "Invalid API key. Please check your GROQ_API_KEY (or OPENAI_API_KEY) in backend/.env";
     } else if (error.status === 429) {
-      userMessage = "OpenAI rate limit exceeded. Please wait a moment and try again.";
+      userMessage = "API rate limit exceeded. Please wait a moment and try again.";
     } else if (error.status === 503 || error.code === "ECONNREFUSED") {
-      userMessage = "Cannot reach OpenAI servers. Please check your internet connection.";
+      userMessage = "Cannot reach AI servers. Please check your internet connection.";
     } else if (error.message) {
       userMessage = error.message;
     }

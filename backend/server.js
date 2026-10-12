@@ -23,10 +23,14 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
+const mongoose = require("mongoose");
+
 // --- Health Check ---
 app.get("/health", (req, res) => {
+  const isDbConnected = mongoose.connection.readyState === 1;
   res.json({
     status: "OK",
+    database: isDbConnected ? "Connected ✅" : "Disconnected ❌",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
   });
